@@ -1,0 +1,36 @@
+services:
+  postgres:
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    image: postgres:15-alpine
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    
+  redis:
+    image: redis:alpine
+    container_name: ${CONTAINER_REDIS_NAME}
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+
+  evolution-api:
+    container_name: ${EVOLUTION_CONTAINER_NAME}
+    image: evoapicloud/evolution-api:v2.3.1
+    restart: unless-stopped
+    ports:
+      - "${EVOLUTION_API_PORT}:${EVOLUTION_API_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - evolution_instances:/evolution/instances
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:
+  evolution_instances:
