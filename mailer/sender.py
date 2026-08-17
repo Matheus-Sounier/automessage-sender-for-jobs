@@ -9,7 +9,7 @@ from core.config import EMAIL_USER, EMAIL_PASS, SMTP_SERVER, SMTP_PORT, RESUME_P
 from core.utils import slug
 
 def build_email(recipients: list[str], body: str) -> MIMEMultipart:
-    """recipients: list with 1 or more emails (e.g., [primary_email, optional_email])."""
+    """Create an email message for given recipients."""
     msg = MIMEMultipart()
     msg["From"] = EMAIL_USER
     msg["To"] = ", ".join(recipients)
